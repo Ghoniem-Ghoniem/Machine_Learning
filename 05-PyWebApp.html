@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello, World!</title>
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.20.0/full/pyodide.js"></script>
+  <py-env>
+      - matplotlib
+      - numpy
+      - pandas
+      - joblib
+   
+    </py-env>
+    <py-script>
+        import os 
+        print('Current Working Directory:')
+        print(os.getcwd())
+        print ('Welcome to python!')
+        print ('Sum of 2+3 is :',2+3)
+
+
+          </py-script>
+
+    <py-script>
+        import joblib
+        from urllib.request import urlopen
+        loaded_model = joblib.load(urlopen("http://127.0.0.1:8000//Completed_model.joblib"))
+        Ypredict = loaded_model.predict([[2022,400,15]])
+        Ypredict
+                  </py-script>
+              
+<py-script>
+  import matplotlib.pyplot as plt
+  import numpy as np
+  from pyodide.http import open_url
+  import pandas as pd
+  #OriginalDF = pd.read_csv(open_url("https://raw.githubusercontent.com/Ghoniem-Ghoniem/DataAnalysis/master/BudgetCSV.csv"))
+  OriginalDF = pd.read_csv(open_url("http://127.0.0.1:8000//BudgetCSV.csv"))
+  table = pd.pivot_table(data=OriginalDF,index=['Year'],aggfunc='mean')
+  X = table.index #index represents the years
+  Y = table["Revenue"] # the grouped value of the revenue
+  NetProfit = Y *.30 
+  plt.title("Revenue Vs Profit per year");
+  plt.bar(X,Y,label="Revenue")
+  plt.bar(X,NetProfit,label="Profit") #We can get it from another column, to represent multi bar column
+  plt.legend(loc="best")
+  plt.show()
+  plt
+    </py-script>
+</body>
+</html>
